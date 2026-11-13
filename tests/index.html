@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>MyArrayClass tests</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        max-width: 50rem;
+        margin: 2rem auto;
+        padding: 0 1rem;
+      }
+      li {
+        margin: 0.25rem 0;
+      }
+      .passed {
+        color: #1a7f37;
+      }
+      .failed {
+        color: #cf222e;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>MyArrayClass tests</h1>
+    <p id="summary">Running...</p>
+    <ul id="results"></ul>
+
+    <script type="module">
+      import { runTests } from "./tests.js";
+
+      const results = runTests();
+      const failed = results.filter((result) => !result.passed);
+
+      const summary = document.getElementById("summary");
+      summary.textContent =
+        results.length - failed.length + " of " + results.length + " tests passed";
+      summary.className = failed.length === 0 ? "passed" : "failed";
+
+      const list = document.getElementById("results");
+      for (const result of results) {
+        const item = document.createElement("li");
+        item.className = result.passed ? "passed" : "failed";
+        item.textContent = result.passed
+          ? "PASS: " + result.name
+          : "FAIL: " + result.name + " (" + result.error + ")";
+        list.appendChild(item);
+      }
+    </script>
+  </body>
+</html>
